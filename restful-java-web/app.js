@@ -3,10 +3,13 @@
 
 var myApp = angular.module('myApp', ['ngResource']);
 
-myApp.controller('mainController', ['$scope','$resource','$http', function($scope,$resource,$http) {
+myApp.controller('mainController', ['$scope','$resource','$http','$timeout',function($scope,$resource,$http,$timeout) {
     
-    $scope.data = 
-        $http.get('http://localhost:9090/restful-java/score/wins')
+   $scope.data = 'Dummy';
+                                    
+    $scope.getData = function() { 
+                                    
+     $scope.data = $http.get('http://localhost:9090/restful-java/score')
         .success(function (result) {
             $scope.data = result;              
 
@@ -15,10 +18,11 @@ myApp.controller('mainController', ['$scope','$resource','$http', function($scop
 
         });
         return $scope.data; 
-    $scope.getData = function() {        
         
     };
     
+    $timeout($scope.getData,3000);  
+
     
     /*We can also get data this way
     $scope.weatherAPI = $resource("http://localhost:9090/restful-java/score");    
