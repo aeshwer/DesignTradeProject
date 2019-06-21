@@ -7,8 +7,10 @@
 */
 package com.restful.java.example;
 
+import java.io.IOException;
+
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -16,13 +18,22 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.codehaus.jackson.map.ObjectMapper;
+
 @Path("/")
 public class ScoreService {
+	
+	private Application app;
 
 	private static int wins;
 	private static int loss;
 	private static int ties;
 
+	public ScoreService() {
+		System.out.println("Hello from server class constructor");
+		app = new Application();
+	}
+	
 	// {"wins":"5" ,"loss":"1","ties":"0"}
 	@GET
 	@Path("/score")
@@ -49,7 +60,7 @@ public class ScoreService {
 
 	}
 
-	@POST
+	@PUT
 	@Path("/score/wins")
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response increaseWins() {
@@ -57,14 +68,14 @@ public class ScoreService {
 		return Response.status(200).entity(wins++).header("Access-Control-Allow-Origin", "*").build();
 	}
 
-	@POST
+	@PUT
 	@Path("/score/loss")
 	@Produces("text/plain")
 	public int increaseLoss() {
 		return loss++;
 	}
 
-	@POST
+	@PUT
 	@Path("/score/ties")
 	@Produces("text/plain")
 	public int increaseTies() {
@@ -90,6 +101,24 @@ public class ScoreService {
 	@Produces("text/plain")
 	public int getTies() {
 		return ties;
+	}
+	
+	//Method which can take a Json from client
+	@PUT
+	@Path("/score/jsonData")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void fetchJson(String obj) {
+		
+		System.out.println("Received Object Json is :" +obj);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			app.startWorkflow();
+			JsonDummyObject readValue = mapper.readValue(obj, JsonDummyObject.class);
+			System.out.println("Received Object Pojo is :" +readValue.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
