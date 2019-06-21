@@ -14,6 +14,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @Path("/")
 public class ScoreService {
@@ -26,9 +27,10 @@ public class ScoreService {
 	@GET
 	@Path("/score")
 	@Produces("application/json")
-	public String getScore() {
+	public Response getScore() {
 		String pattern = "{\"wins\":\"%s\" ,\"loss\":\"%s\",\"ties\":\"%s\"}";
-		return String.format(pattern, wins, loss, ties);
+		//return String.format(pattern, wins, loss, ties);
+		return Response.status(200).entity(String.format(pattern, wins, loss, ties)).build();
 
 	}
 
@@ -50,8 +52,9 @@ public class ScoreService {
 	@POST
 	@Path("/score/wins")
 	@Produces(MediaType.TEXT_PLAIN)
-	public int increaseWins() {
-		return wins++;
+	public Response increaseWins() {
+		//return wins++;
+		return Response.status(200).entity(wins++).header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	@POST
