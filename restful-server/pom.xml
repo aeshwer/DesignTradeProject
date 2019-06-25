@@ -22,9 +22,14 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>restful-java</groupId>
-			<artifactId>restful-java</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>5.4.1.Final</version>
+		</dependency>
+			<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>4.0</version>
 		</dependency>
 	</dependencies>
 </project>
