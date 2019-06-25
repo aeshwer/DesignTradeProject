@@ -20,18 +20,23 @@ import javax.ws.rs.core.Response;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.google.inject.Injector;
+
+import restful_server.restful_server.ExposedFunction;
+
+
 @Path("/")
 public class ScoreService {
 	
-	private Application app;
-
+	private static Injector injector;
+	private ExposedFunction exposed;
 	private static int wins;
 	private static int loss;
 	private static int ties;
 
 	public ScoreService() {
-		System.out.println("Hello from server class constructor");
-		app = new Application();
+		exposed = injector.getInstance(ExposedFunction.class);
+		System.out.println("Hello from server class constructor: ExposedFuntion " + exposed.hashCode());
 	}
 	
 	// {"wins":"5" ,"loss":"1","ties":"0"}
@@ -113,7 +118,7 @@ public class ScoreService {
 		
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			app.startWorkflow();
+			exposed.calledFuntion();
 			JsonDummyObject readValue = mapper.readValue(obj, JsonDummyObject.class);
 			System.out.println("Received Object Pojo is :" +readValue.toString());
 		} catch (IOException e) {
