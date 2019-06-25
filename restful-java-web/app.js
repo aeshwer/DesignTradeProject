@@ -77,6 +77,7 @@ myApp.controller('mainController', ['$scope','$resource','$http','$timeout',func
     //$timeout($scope.getData,1000); 
     
     $timeout($scope.putJsonDummyData,2000); 
+    $timeout($scope.putJsonDummyData,2000); 
     $timeout($scope.getData,1000); 
     
     
